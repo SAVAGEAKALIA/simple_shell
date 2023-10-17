@@ -1,3 +1,5 @@
+This README was wriiten by ALX students for the purpose of understanding our simple shell project.
+
 Learning Objectives
 
 At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
