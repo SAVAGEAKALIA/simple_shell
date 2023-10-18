@@ -3,7 +3,7 @@
  *main - main function for simple shell
  *@argc: argument count
  *@argv: argument passed to shell
- *Return: 0 if fail
+ *Return: 0 if it fails
  */
 
 int main(int argc, char **argv)
