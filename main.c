@@ -6,7 +6,7 @@
  *Return: 0 if fail
  */
 
-/*int main(int argc, char **argv)
+int main(int argc, char **argv)
 {		char *read_fd = NULL;
 		char **tokens = NULL, **commands = NULL;
 		int i, cmd, interactive = isatty(STDIN_FILENO);
@@ -47,4 +47,4 @@
 		}
 	}
 	return (0);
-}*/
+}
