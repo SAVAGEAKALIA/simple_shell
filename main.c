@@ -12,26 +12,26 @@ int main(int argc, char **argv)
 		int i, cmd, interactive = isatty(STDIN_FILENO);
 
 		if (argc > 1)
-		{*NON INTERACTIVE MODE*
+		{
 			for (i = 1; i < argc; i++)
 		{
 			shell_exec(&argv[i], interactive);
 		}
 		}
 		else
-		{ *INTERACTIVE MODE*
+		{
 		while (1)
 		{
 			if (interactive)
-			{*If STDIN is a terminal, print the prompt*
+			{
 				prompt();
 			}
-		*	read_fd = read_line();*
+			read_fd = read_line();
 			read_fd = _getline();
 			if (read_fd == NULL)
 			{ break;
 			}
-			commands = split_commands(read_fd); *to separate commands*
+			commands = split_commands(read_fd);
 			if (commands != NULL)
 			{
 			for (cmd = 0; commands[cmd] != NULL; cmd++)
