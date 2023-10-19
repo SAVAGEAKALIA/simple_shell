@@ -9,10 +9,10 @@ int shell_exec(char **argv)
 	pid_t pid;
 	int status;	/*char *path = get_path(argv[0]);*/
 
-	if (builtin_exec(argv) == 0)
-	{	/*free(path);*/
+	/*if (builtin_exec(argv) == 0)
+	{	*free(path);*
 		return (0);
-	}
+	}*/
 
 	pid = fork();
 	if (pid == -1)
