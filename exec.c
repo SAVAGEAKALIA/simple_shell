@@ -24,8 +24,8 @@ int shell_exec(char **argv)
 		if (execve(argv[0], argv, environ) == -1)
 		{/*No such file or directory*/
 			/*free(path)*/
-			/*perror("hsh");*/
-			exit(126);
+			perror("hsh");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else

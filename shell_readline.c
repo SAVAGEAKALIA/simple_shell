@@ -1,9 +1,12 @@
 #include "shell.h"
+#define MAX_COMMAND_LENGTH 1024
+
 /**
   *read_line - function to read line from stdin
   *@interactive: check if in interactive mode
   *Return: line on success
   */
+
 char *read_line(bool interactive)
 {
 	char *line = NULL;
@@ -22,12 +25,17 @@ char *read_line(bool interactive)
 	{
 		if (feof(stdin) || !interactive)
 		{	free(line);
-			return (NULL);
+			exit(0);
 		}
 		else
 		{	perror("getline");
-			exit(EXIT_FAILURE);
+			exit(0);
 		}
+	}
+	if (bytes_read > MAX_COMMAND_LENGTH)
+	{
+		free(line);
+		exit(0);
 	}
 
 	if (bytes_read > 0 && line[bytes_read - 1] == '\n')

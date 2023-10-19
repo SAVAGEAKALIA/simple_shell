@@ -14,17 +14,13 @@ int main(int argc, char **argv)
 
 		(void)argv;
 		(void)argc;
-
 		while (1)
 		{
 			if (interactive)
 			{
-				prompt();
-			}
+				prompt();	}
 
 			read_fd = read_line(interactive);
-
-			/*fprintf(stderr, "Read input: %s\n", read_fd);*/
 			/*read_fd = _getline();*/
 			if (read_fd == NULL)
 			{ break;
@@ -36,8 +32,14 @@ int main(int argc, char **argv)
 			{	tokens = shell_tokens(commands[cmd]);
 				if (tokens != NULL)
 			{
+				if (tokens[0] != NULL && strlen(tokens[0]) > 0)
+				{
 					shell_exec(tokens);
 					ffree(tokens);
+				}
+				else
+				{
+					continue;	}
 				}
 			}
 			 ffree(commands);
