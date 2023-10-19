@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 			{	tokens = shell_tokens(commands[cmd]);
 				if (tokens != NULL)
 			{
-				if (tokens[0] != NULL && strlen(tokens[0]) > 0)
+				if (tokens[0] != NULL && _strlen(tokens[0]) > 0)
 				{
 					shell_exec(tokens);
 					ffree(tokens);
