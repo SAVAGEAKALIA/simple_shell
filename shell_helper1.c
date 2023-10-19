@@ -118,3 +118,27 @@ int _strncmp(const char *s1, const char *s2, int n)
 		return (*s1 - *s2);
 	}
 }
+
+
+/**
+  *_strrchr - Locates the last occurrence of a character in a string.
+  *@str: pointer to string
+  *@ch: character to track
+  *Return:  A pointer to the memory area in `str`
+  */
+
+char *_strrchr(const char *str, int ch)
+{
+	char *result = NULL;
+
+	if (str == NULL)
+		return (NULL);
+
+	while (*str)
+	{
+		if (*str == ch)
+			result = (char *)str;
+		str++;
+	}
+	return (result);
+}

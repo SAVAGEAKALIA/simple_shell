@@ -10,15 +10,17 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <stdbool.h>
 
 #define BUFFER_SIZE 1024
 void process_input(char *input, int interactive);
 
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-int shell_exec(char **argv, int interactive);
+int shell_exec(char **argv);
 /*void error(char *input);*/
 void prompt(void);
-char *read_line(void);
+/*char *read_line(void);*/
+char *read_line(bool interactive);
 char **shell_tokens(const char *line);
 char *get_path(char *argv);
 int builtin_exec(char **argv);
@@ -51,7 +53,7 @@ char *_strncpy(char *dest, const char *src, int n);
 char *_strchr(const char *str, char target);
 char *_strcpy(char *dest, const char *src);
 int _strncmp(const char *s1, const char *s2, int n);
-
+char *_strrchr(const char *str, int ch);
 char *_strtok(char *str, const char *delim);
 int _atoi(char *str);
 

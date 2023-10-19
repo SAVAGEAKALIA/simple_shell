@@ -2,48 +2,39 @@
 /**
   *shell_exec - funct to execute command
   *@argv: command passed to be executed
-  *@interactive: checks if in interactive
   *Return: -1 on error
   */
-int shell_exec(char **argv, int interactive)
-{	pid_t pid;
-	int status;
-	char *path = get_path(argv[0]);
+int shell_exec(char **argv)
+{
+	pid_t pid;
+	int status;	/*char *path = get_path(argv[0]);*/
 
 	if (builtin_exec(argv) == 0)
-	{	free(path);
+	{	/*free(path);*/
 		return (0);
 	}
-	if (path == NULL)
-	{	/*error(argv[0], 1, 127, interactive);*/
-		perror("hsh");
-		return (127);	}
 
 	pid = fork();
 	if (pid == -1)
 	{	perror("Fork");
-		free(path);
+		/*free(path);*/
 		return (-1);	}
 	if (pid == 0)
 	{
-		if (execve(path, argv, NULL) == -1)
-		{
-			if (access(path, X_OK) == -1)
-			{	error(argv[0], 1, 126, interactive);	}
-			else
-			{	error(argv[0], 1, 127, interactive);	}
-			/*No such file or directory*/
-			free(path);
+		if (execve(argv[0], argv, environ) == -1)
+		{/*No such file or directory*/
+			/*free(path)*/
+			/*perror("hsh");*/
 			exit(126);
 		}
 	}
 	else
 	{
-		if (wait(&status) == -1)
+		if (waitpid(pid, &status, 0) == -1)
 		{	perror("Waitpid");
-			free(path);
+			/*free(path);*/
 			return (-1);	}
-		free(path);
+		/*free(path);*/
 		return (status);
 	}
 	return (-1);	}
@@ -54,17 +45,17 @@ int shell_exec(char **argv, int interactive)
   *Return: Null on failure
   */
 char *get_path(char *argv)
-{	char *path = _getenv("PATH"), *path_cpy, *path_token, *file_path;
+{	char *path = _getenv("PATH"), *path_cpy, *path_token;
+	char *file_path = NULL; /*lastSlash;*/
 	size_t len = _strlen(argv);
 	size_t path_length;
 	struct stat st;
 
+
 	if (argv != NULL && _strchr(argv, '/') != NULL)
-	{
-		if (access(argv, F_OK) == 0)
-		{/*Return argv as is*/
+	{	/*Return argv as is*/
 		return (_strdup(argv)); }
-	}
+
 	if (argv != NULL && argv[0] != '\0')
 	{
 	path_cpy = _strdup(path);

@@ -1,28 +1,44 @@
 #include "shell.h"
 /**
   *read_line - function to read line from stdin
+  *@interactive: check if in interactive mode
   *Return: line on success
   */
-
-char *read_line(void)
+char *read_line(bool interactive)
 {
-	size_t n = 0;
 	char *line = NULL;
+	size_t n = 0;
+	ssize_t bytes_read;
 
-	if (getline(&line, &n, stdin) == -1)
+	if (interactive)
 	{
-		while (1)
-		{
-		if (line != NULL)
+		bytes_read = getline(&line, &n, stdin);
+	}
+	else
+	{
+		bytes_read = getline(&line, &n, stdin);
+	}
+	if (bytes_read == -1)
+	{
+		if (feof(stdin) || !interactive)
 		{	free(line);
-			break;
+			return (NULL);
 		}
-		/*perror("bytes_read");*/
-		/*return (NULL);*//*Handle other errors as needed*/
+		else
+		{	perror("getline");
+			exit(EXIT_FAILURE);
 		}
 	}
+
+	if (bytes_read > 0 && line[bytes_read - 1] == '\n')
+	{
+		line[bytes_read - 1] = '\0';
+	}
+
 	return (line);
 }
+
+
 
 /**
   *_getline - read line from stdin

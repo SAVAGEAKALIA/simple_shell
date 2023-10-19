@@ -9,25 +9,23 @@
 int main(int argc, char **argv)
 {		char *read_fd = NULL;
 		char **tokens = NULL, **commands = NULL;
-		int i, cmd, interactive = isatty(STDIN_FILENO);
+		int  cmd;
+		bool interactive = isatty(STDIN_FILENO);
 
-		if (argc > 1)
-		{
-			for (i = 1; i < argc; i++)
-		{
-			shell_exec(&argv[i], interactive);
-		}
-		}
-		else
-		{
+		(void)argv;
+		(void)argc;
+
 		while (1)
 		{
 			if (interactive)
 			{
 				prompt();
 			}
-			read_fd = read_line();
-			read_fd = _getline();
+
+			read_fd = read_line(interactive);
+
+			/*fprintf(stderr, "Read input: %s\n", read_fd);*/
+			/*read_fd = _getline();*/
 			if (read_fd == NULL)
 			{ break;
 			}
@@ -37,7 +35,8 @@ int main(int argc, char **argv)
 			for (cmd = 0; commands[cmd] != NULL; cmd++)
 			{	tokens = shell_tokens(commands[cmd]);
 				if (tokens != NULL)
-				{	shell_exec(tokens, interactive);
+			{
+					shell_exec(tokens);
 					ffree(tokens);
 				}
 			}
@@ -45,6 +44,6 @@ int main(int argc, char **argv)
 			 free(read_fd);
 			}
 		}
-	}
+
 	return (0);
 }

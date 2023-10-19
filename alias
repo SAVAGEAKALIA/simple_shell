@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define ALIAS_MAX 100
+
+// Structure to store aliases
+struct Alias {
+    char *name;
+    char *value;
+};
+
+// Array to store aliases
+struct Alias aliases[ALIAS_MAX];
+int aliasCount = 0;
+
+// Function to add or update an alias
+void addAlias(const char *name, const char *value) {
+    // Check if the alias already exists
+    for (int i = 0; i < aliasCount; i++) {
+        if (strcmp(aliases[i].name, name) == 0) {
+            // Update the value of the existing alias
+            free(aliases[i].value);
+            aliases[i].value = strdup(value);
+            return;
+        }
+    }
+
+    // Check if there is space for a new alias
+    if (aliasCount < ALIAS_MAX) {
+        aliases[aliasCount].name = strdup(name);
+        aliases[aliasCount].value = strdup(value);
+        aliasCount++;
+    } else {
+        write(STDERR_FILENO, "Alias limit reached.\n", sizeof("Alias limit reached.\n") - 1);
+    }
+}
+
+// Function to list all aliases
+void listAliases() {
+    for (int i = 0; i < aliasCount; i++) {
+        char aliasInfo[256];
+        int len = snprintf(aliasInfo, sizeof(aliasInfo), "%s='%s'\n", aliases[i].name, aliases[i].value);
+        write(STDOUT_FILENO, aliasInfo, len);
+    }
+}
+
+// Function to print the value of specific aliases
+void printAliases(int argc, char **argv) {
+    for (int i = 1; i < argc; i++) {
+        for (int j = 0; j < aliasCount; j++) {
+            if (strcmp(aliases[j].name, argv[i]) == 0) {
+                char aliasInfo[256];
+                int len = snprintf(aliasInfo, sizeof(aliasInfo), "%s='%s'\n", aliases[j].name, aliases[j].value);
+                write(STDOUT_FILENO, aliasInfo, len);
+                break;
+            }
+        }
+    }
+}
+
+// Main function
+int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        listAliases();
+    } else {
+        if (strcmp(argv[1], "alias") == 0) {
+            if (argc == 2) {
+                listAliases();
+            } else {
+                addAlias(argv[2], argv[3]);
+            }
+        } else {
+            printAliases(argc, argv);
+        }
+    }
+    return 0;
+}
+
