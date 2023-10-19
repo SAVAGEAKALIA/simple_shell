@@ -49,7 +49,7 @@ void handleCommandNotFound(const char *cmd_name, int interactive)
 	{	write(STDERR_FILENO, cmd_name, strlen(cmd_name));
 		write(STDERR_FILENO, ": command not found\n", 21);	}
 	else
-	{	write(STDERR_FILENO, "hsh: 1:", 7);
+	{	write(STDERR_FILENO, "./hsh: 1: ", 10);
 		write(STDERR_FILENO, cmd_name, strlen(cmd_name));
 		write(STDERR_FILENO, ": not found\n", 12);
 	}

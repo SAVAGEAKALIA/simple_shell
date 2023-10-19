@@ -2,41 +2,51 @@
 /**
   *shell_exec - funct to execute command
   *@argv: command passed to be executed
+  *@interactive: check if in interactive mode
   *Return: -1 on error
   */
-int shell_exec(char **argv)
-{
-	pid_t pid;
-	int status;	/*char *path = get_path(argv[0]);*/
+int shell_exec(char **argv, int interactive)
+{	pid_t pid;
+	int status;
+	char *path = get_path(argv[0]);
 
-	/*if (builtin_exec(argv) == 0)
-	{	*free(path);*
+	if (builtin_exec(argv) == 0)
+	{	free(path);
 		return (0);
-	}*/
-
+	}
+	if (path == NULL)
+	{
+		if (interactive == 1)
+		{perror("hsh");	}
+		else
+		{	handleCommandNotFound(argv[0], 0);	}
+		free(path);
+		exit(127);
+	}
+	if (access(path, F_OK) == -1)
+	{	free(path);
+		handleCommandNotFound(argv[0], 0);
+		exit(127);	}
 	pid = fork();
 	if (pid == -1)
 	{	perror("Fork");
-		/*free(path);*/
+		free(path);
 		return (-1);	}
 	if (pid == 0)
 	{
-		if (execve(argv[0], argv, environ) == -1)
-		{/*No such file or directory*/
-			/*free(path)*/
-			perror("hsh");
-			exit(0);
-		}
+		if (execve(path, argv, environ) == -1)
+		{	free(path);
+			handleCommandNotFound(argv[0], 0);
+			exit(126);	}
 	}
 	else
 	{
 		if (waitpid(pid, &status, 0) == -1)
 		{	perror("Waitpid");
-			/*free(path);*/
+			free(path);
 			return (-1);	}
-		/*free(path);*/
-		return (status);
-	}
+		free(path);
+		return (WIFEXITED(status) ? WEXITSTATUS(status) : -1);	}
 	return (-1);	}
 
 /**

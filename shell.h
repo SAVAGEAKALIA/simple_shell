@@ -16,7 +16,7 @@
 void process_input(char *input, int interactive);
 
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-int shell_exec(char **argv);
+int shell_exec(char **argv, int interactive);
 /*void error(char *input);*/
 void prompt(void);
 /*char *read_line(void);*/
