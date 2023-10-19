@@ -25,7 +25,7 @@ int shell_exec(char **argv)
 		{/*No such file or directory*/
 			/*free(path)*/
 			perror("hsh");
-			exit(EXIT_FAILURE);
+			exit(0);
 		}
 	}
 	else
