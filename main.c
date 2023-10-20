@@ -2,7 +2,7 @@
 /**
  *main - main function for simple shell
  *@argc: argument count
- *@argv: argument passed to shell
+ *@argv: argument passed to shell (vector)
  *Return: 0 if it fails
  */
 

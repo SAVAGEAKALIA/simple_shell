@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
-  *shell_cd - function to change directory
+  *shell_cd - function to change the directory
   *@args: argument passed to function
   *No return value for void function
   */
@@ -43,7 +43,7 @@ void shell_exit(char **args)
 
 
 /**
- *shell_env - function to  Print the environment.
+ *shell_env - function to  print the environment.
  *@args: The arguments passed to shell
  *Function to print current shell environment
  */
