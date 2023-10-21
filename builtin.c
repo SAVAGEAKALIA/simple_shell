@@ -7,18 +7,48 @@
 
 void shell_cd(char **args)
 {
+	const char *home, *previous_dir;
+	char cwd[1024];
+
 	if (args[1] == NULL)
-	{
-		write(STDERR_FILENO, "hsh: expected argument to 'cd'\n", 30);
+	{	home = getenv("HOME");
+		if (home == NULL)
+		{	write(STDERR_FILENO, "cd: $HOME not set\n", 18);
+			return;
+		}
+		if (chdir(home) != 0)
+		{	perror("cd");
+			return;	}
+	}
+	else if (_strcmp(args[1], "-") == 0)
+	{	previous_dir = getenv("OLDPWD");
+		if (previous_dir == NULL)
+		{	write(STDERR_FILENO, "cd: OLDPWD not set\n", 19);
+			return;
+		}
+		if (chdir(previous_dir) != 0)
+		{	perror("cd");
+			return;
+		}
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
-		{
-			perror("hsh");
+		{	perror("cd");
+			return;
 		}
 	}
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{	perror("getcwd");
+		return;
+	}
+	if (setenv("PWD", cwd, 1) != 0)
+	{	perror("setenv");
+		return;
+	}
+	return;
 }
+
 
 /**
   *shell_exit - function to exit the shell

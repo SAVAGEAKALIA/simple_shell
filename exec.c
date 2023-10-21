@@ -21,7 +21,7 @@ int shell_exec(char **argv, int interactive)
 		else
 		{	handleCommandNotFound(argv[0], 0);	}
 		free(path);
-		exit(127);
+		return (127);
 	}
 	if (access(path, F_OK) == -1)
 	{	free(path);

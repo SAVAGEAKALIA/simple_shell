@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 			read_fd = read_line(interactive);
 			/*read_fd = _getline();*/
 			if (read_fd == NULL  || read_fd[0] == '\0')
-			{ continue;	}
+			{	continue;	}
 			commands = split_commands(read_fd);
 			if (commands != NULL)
 			{
@@ -35,6 +35,9 @@ int main(int argc, char **argv)
 					ffree(tokens);
 					if (exec_status != 0)
 					{	exit_status = exec_status;
+						if(!interactive)
+						{
+							return (exit_status);	}
 					}
 				}
 				else
