@@ -63,7 +63,7 @@ char *extract_command_name(char *full_path);
 /*void error(char *input, int cmd_number, int status);*/
 void error(char *input, int cmd_number, int status, int interactive);
 void handleCommandNotFound(const char *cmd_name, int interactive);
-void handlePermissionDenied(const char *cmd_name, int interactive);
+void error_cd(const char *cmd_name, const char *name2);
 void handleOtherError(const char *cmd_name, int interactive);
 extern char **environ;
 

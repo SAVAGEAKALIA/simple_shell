@@ -30,9 +30,7 @@ void error(char *input, int cmd_number, int status, int interactive)
 		{
 			cmd_name = path + 1; /*The command name is the next part*/	}
 	}
-	if (status == 126)
-	{	handlePermissionDenied(cmd_name, is_interactive);	}
-	else if (status == 127)
+	if (status == 127)
 	{	handleCommandNotFound(cmd_name, is_interactive);	}
 	else
 	{handleOtherError(cmd_name, is_interactive);	}
@@ -55,22 +53,17 @@ void handleCommandNotFound(const char *cmd_name, int interactive)
 	}
 }
 /**
-  *handlePermissionDenied - handle permission error
+  *error_cd - handle cd error
   *@cmd_name: command name
-  *@interactive: check if in interactive
+  *@name2: arg2
   */
-void handlePermissionDenied(const char *cmd_name, int interactive)
+void error_cd(const char *cmd_name, const char *name2)
 {
-	if (interactive)
-	{
-		write(STDERR_FILENO, cmd_name, _strlen(cmd_name));
-		write(STDERR_FILENO, ": Permission denied\n", 20);
-	}
-	else
-	{	write(STDERR_FILENO, "hsh: 1:", 7);
+		write(STDERR_FILENO, "./hsh: 1: ", 10);
 		write(STDERR_FILENO, cmd_name, strlen(cmd_name));
-		write(STDERR_FILENO, ": Permission denied\n", 20);
-	}
+		write(STDERR_FILENO, ": can't cd to ", 14);
+		write(STDERR_FILENO, name2, strlen(name2));
+		write(STDERR_FILENO, "\n", 1);
 }
 /**
   *handleOtherError - handle unknown error

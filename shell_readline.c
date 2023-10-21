@@ -32,17 +32,16 @@ char *read_line(bool interactive)
 			exit(0);
 		}
 	}
-	/*if (bytes_read > MAX_COMMAND_LENGTH)
+	if (bytes_read > MAX_COMMAND_LENGTH)
 	{
 		free(line);
 		exit(0);
-	}*/
+	}
 
 	if (bytes_read > 0 && line[bytes_read - 1] == '\n')
 	{
 		line[bytes_read - 1] = '\0';
 	}
-
 	return (line);
 }
 

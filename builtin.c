@@ -11,30 +11,30 @@ void shell_cd(char **args)
 	char cwd[1024];
 
 	if (args[1] == NULL)
-	{	home = getenv("HOME");
+	{	home = _getenv("HOME");
 		if (home == NULL)
-		{	write(STDERR_FILENO, "cd: $HOME not set\n", 18);
+		{	/*write(STDERR_FILENO, "cd: $HOME not set\n", 18);*/
 			return;
 		}
 		if (chdir(home) != 0)
-		{	perror("cd");
+		{	error_cd(args[0], args[1]);
 			return;	}
 	}
 	else if (_strcmp(args[1], "-") == 0)
-	{	previous_dir = getenv("OLDPWD");
+	{	previous_dir = _getenv("OLDPWD");
 		if (previous_dir == NULL)
-		{	write(STDERR_FILENO, "cd: OLDPWD not set\n", 19);
+		{	/*write(STDERR_FILENO, "cd: OLDPWD not set\n", 19);*/
 			return;
 		}
 		if (chdir(previous_dir) != 0)
-		{	perror("cd");
+		{	error_cd(args[0], args[1]);
 			return;
 		}
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
-		{	perror("cd");
+		{	error_cd(args[0], args[1]);
 			return;
 		}
 	}
@@ -46,7 +46,6 @@ void shell_cd(char **args)
 	{	perror("setenv");
 		return;
 	}
-	return;
 }
 
 

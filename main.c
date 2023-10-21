@@ -35,9 +35,8 @@ int main(int argc, char **argv)
 					ffree(tokens);
 					if (exec_status != 0)
 					{	exit_status = exec_status;
-						if(!interactive)
-						{
-							return (exit_status);	}
+					if (!interactive)
+					{	return (exit_status);	}
 					}
 				}
 				else
@@ -49,5 +48,4 @@ int main(int argc, char **argv)
 			 free(read_fd);
 			}
 		}
-	return (exit_status);
-}
+	return (exit_status);	}
